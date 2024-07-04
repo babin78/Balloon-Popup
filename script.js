@@ -62,7 +62,7 @@ const removeStaleBallons = () => {
 const ballonArray = [];
 
 /** remove stale nodes/baloons every 8s */
-setInterval(removeStaleBallons, 8000);
+//setInterval(removeStaleBallons, 2000);
 
 const ballonClickEvent = (e) => {
   console.log("ballon clicked");
@@ -110,6 +110,8 @@ const createBallon = (colorCode, pos, newID) => {
     newBallonDiv.style.display = "block";
 
     newBallonDiv.addEventListener("click", ballonClickEvent);
+    newBallonDiv.addEventListener("animationiteration", removeStaleBallons);
+    newBallonDiv.addEventListener("animationend", removeStaleBallons);
 
     ballonArray.push({ id: newID, expire: Date.now() + 8000 });
 
