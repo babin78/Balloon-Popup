@@ -9,7 +9,8 @@ const redBar = document.querySelector(".redBar");
 const baloonList = document.querySelector("#baloonList");
 const audioplayer = document.querySelector("#audioPlayer");
 
-const audio = new Audio("./images/pop.mp3");
+const popAudio = new Audio("./images/pop.mp3");
+const explosionAudio = new Audio("./images/explosion.mp3");
 
 const COLORS = [
   "#9400D3" /*violet*/,
@@ -96,6 +97,7 @@ const isRedalloon = (e) => {
 
   return isRedFlag;
 };
+
 const ballonClickEvent = (e) => {
   console.log("ballon clicked");
 
@@ -103,17 +105,21 @@ const ballonClickEvent = (e) => {
   //audioplayer.play();
   if (isRedalloon(e)) {
     console.log(`opps you clicked red`);
+    explosionAudio.play();
     isStarted = false;
   } else {
-    audio.play();
+    popAudio.play();
   }
 };
 
 const animENDEvent = (e) => {
   if (isRedalloon(e)) {
     console.log(`opps you clicked red`);
+  } else {
+    explosionAudio.play();
+    isStarted = false;
+    console.log(`oops balloon died`);
   }
-  console.log(`oops balloon died`);
 
   removeStaleBallons();
 };
