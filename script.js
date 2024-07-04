@@ -24,7 +24,14 @@ const COLORS = [
 
 const POSITIONS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
 
+const POSITIONS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+
 const LEVELS = {
+  LEVEL1: { delay: 4000, Nos: 6 },
+  LEVEL2: { delay: 3000, Nos: 8 },
+  LEVEL3: { delay: 2000, Nos: 10 },
+  LEVEL4: { delay: 1000, Nos: 12 },
+  LEVEL5: { delay: 400, Nos: 14 },
   LEVEL1: { delay: 4000, Nos: 6 },
   LEVEL2: { delay: 3000, Nos: 8 },
   LEVEL3: { delay: 2000, Nos: 10 },
@@ -70,6 +77,8 @@ const ballonArray = [];
 /** remove stale nodes/baloons every 8s */
 //setInterval(removeStaleBallons, 2000);
 
+const isRedalloon = (e) => {
+  let isRedFlag = false;
 const isRedalloon = (e) => {
   let isRedFlag = false;
   let currentid = null;
@@ -145,10 +154,13 @@ const createBallon = (
     newBallonDiv.style.left = pos + "%";
     newBallonDiv.style.bottom = "-100%";
     //newBallonDiv.style.animationduration = animationduration + "s";
+    //newBallonDiv.style.animationduration = animationduration + "s";
 
     newBallonDiv.style.display = "block";
 
     newBallonDiv.addEventListener("click", ballonClickEvent);
+    newBallonDiv.addEventListener("animationiteration", animENDEvent);
+    newBallonDiv.addEventListener("animationend", animENDEvent);
     newBallonDiv.addEventListener("animationiteration", animENDEvent);
     newBallonDiv.addEventListener("animationend", animENDEvent);
 
@@ -170,7 +182,11 @@ setInterval(() => {
     let posRand = generateRandomNumber(9);
     //let pos = 95;
     createBallon(COLORS[colorpos], POSITIONS[posRand], "nb" + Date.now());
+    let posRand = generateRandomNumber(9);
+    //let pos = 95;
+    createBallon(COLORS[colorpos], POSITIONS[posRand], "nb" + Date.now());
   }
+}, 4000);
 }, 4000);
 
 strBtn.addEventListener("click", () => {
@@ -182,10 +198,6 @@ strBtn.addEventListener("click", () => {
   strBtn.style.display = "none";
 
   isStarted = true;
-
-  //let colorpos = generateRandomNumber(7);
-  //let pos = generateRandomNumber(100);
-  //createBallon(COLORS[colorpos], pos, "nb" + Date.now());
 });
 
 /*
