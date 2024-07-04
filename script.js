@@ -7,6 +7,9 @@ const balloonsvg = document.querySelector("#balloonsvg");
 const redBar = document.querySelector(".redBar");
 
 const baloonList = document.querySelector("#baloonList");
+const audioplayer = document.querySelector("#audioPlayer");
+
+const audio = new Audio("./images/pop.mp3");
 
 const COLORS = [
   "#9400D3" /*violet*/,
@@ -18,12 +21,14 @@ const COLORS = [
   "#FF0000" /*red*/,
 ];
 
+const POSITIONS = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+
 const LEVELS = {
-  LEVEL1: { delay: 6, Nos: 6 },
-  LEVEL2: { delay: 5, Nos: 8 },
-  LEVEL3: { delay: 4, Nos: 10 },
-  LEVEL4: { delay: 3, Nos: 12 },
-  LEVEL5: { delay: 2, Nos: 14 },
+  LEVEL1: { delay: 4000, Nos: 6 },
+  LEVEL2: { delay: 3000, Nos: 8 },
+  LEVEL3: { delay: 2000, Nos: 10 },
+  LEVEL4: { delay: 1000, Nos: 12 },
+  LEVEL5: { delay: 400, Nos: 14 },
 };
 
 let isStarted = false;
@@ -64,9 +69,8 @@ const ballonArray = [];
 /** remove stale nodes/baloons every 8s */
 //setInterval(removeStaleBallons, 2000);
 
-const ballonClickEvent = (e) => {
-  console.log("ballon clicked");
-  //console.log(e.target.parentNode);
+const isRedalloon = (e) => {
+  let isRedFlag = false;
   let currentid = null;
   if (e.target.id == "balloonsvg") {
     {
@@ -86,12 +90,40 @@ const ballonClickEvent = (e) => {
       document.querySelector("#" + currentid).getAttribute("data-color") ==
       "#FF0000"
     ) {
-      console.log("oops!you are busted");
+      isRedFlag = true;
     }
+  }
+
+  return isRedFlag;
+};
+const ballonClickEvent = (e) => {
+  console.log("ballon clicked");
+
+  //console.log(e.target.parentNode);
+  //audioplayer.play();
+  if (isRedalloon(e)) {
+    console.log(`opps you clicked red`);
+    isStarted = false;
+  } else {
+    audio.play();
   }
 };
 
-const createBallon = (colorCode, pos, newID) => {
+const animENDEvent = (e) => {
+  if (isRedalloon(e)) {
+    console.log(`opps you clicked red`);
+  }
+  console.log(`oops balloon died`);
+
+  removeStaleBallons();
+};
+const createBallon = (
+  colorCode,
+  pos,
+  newID,
+
+  animationduration = 8
+) => {
   try {
     const newBallonDiv = balloon.cloneNode(true);
     const newSVG = balloonsvg.cloneNode(true);
@@ -106,12 +138,13 @@ const createBallon = (colorCode, pos, newID) => {
     newBallonDiv.setAttribute("data-color", colorCode);
     newBallonDiv.style.left = pos + "%";
     newBallonDiv.style.bottom = "-100%";
+    //newBallonDiv.style.animationduration = animationduration + "s";
 
     newBallonDiv.style.display = "block";
 
     newBallonDiv.addEventListener("click", ballonClickEvent);
-    newBallonDiv.addEventListener("animationiteration", removeStaleBallons);
-    newBallonDiv.addEventListener("animationend", removeStaleBallons);
+    newBallonDiv.addEventListener("animationiteration", animENDEvent);
+    newBallonDiv.addEventListener("animationend", animENDEvent);
 
     ballonArray.push({ id: newID, expire: Date.now() + 8000 });
 
@@ -128,10 +161,11 @@ const createBallon = (colorCode, pos, newID) => {
 setInterval(() => {
   if (isStarted) {
     let colorpos = generateRandomNumber(7);
-    let pos = generateRandomNumber(100);
-    createBallon(COLORS[colorpos], pos, "nb" + Date.now());
+    let posRand = generateRandomNumber(9);
+    //let pos = 95;
+    createBallon(COLORS[colorpos], POSITIONS[posRand], "nb" + Date.now());
   }
-}, 8000);
+}, 4000);
 
 strBtn.addEventListener("click", () => {
   console.log("button clicked");
