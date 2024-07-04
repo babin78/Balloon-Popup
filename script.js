@@ -26,6 +26,8 @@ const LEVELS = {
   LEVEL5: { delay: 2, Nos: 14 },
 };
 
+let isStarted = false;
+
 const generateRandomNumber = (n) => {
   return Math.floor(Math.random() * n);
 };
@@ -41,7 +43,19 @@ const removeStaleBallons = () => {
     expiredBalloons.map((item, index) => {
       const element = document.getElementById(item.id);
       element.remove();
+      ballonArray.map((olditem, index2) => {
+        if (olditem.id == item.id) {
+          ballonArray.splice(index2, 1);
+        }
+      });
     });
+
+    console.log(ballonArray);
+    /*
+    const newArray = balloonArray.filter(
+      (item) => !expiredBalloons.includes(item)
+    );
+    */
   }
 };
 
@@ -91,7 +105,7 @@ const createBallon = (colorCode, pos, newID) => {
     newBallonDiv.setAttribute("id", newID);
     newBallonDiv.setAttribute("data-color", colorCode);
     newBallonDiv.style.left = pos + "%";
-    newBallonDiv.style.bottom = "10%"; /*change it to -100%*/
+    newBallonDiv.style.bottom = "-100%";
 
     newBallonDiv.style.display = "block";
 
@@ -109,14 +123,13 @@ const createBallon = (colorCode, pos, newID) => {
   //return newBallonDiv;
 };
 
-/*
 setInterval(() => {
-  let colorpos = generateRandomNumber(7);
-  let pos = generateRandomNumber(100);
-  createBallon(COLORS[colorpos], pos, "nb" + Date.now());
+  if (isStarted) {
+    let colorpos = generateRandomNumber(7);
+    let pos = generateRandomNumber(100);
+    createBallon(COLORS[colorpos], pos, "nb" + Date.now());
+  }
 }, 8000);
-
-*/
 
 strBtn.addEventListener("click", () => {
   console.log("button clicked");
@@ -126,9 +139,11 @@ strBtn.addEventListener("click", () => {
   redBar.style.display = "inherit";
   strBtn.style.display = "none";
 
-  let colorpos = generateRandomNumber(7);
-  let pos = generateRandomNumber(100);
-  createBallon(COLORS[colorpos], pos, "nb" + Date.now());
+  isStarted = true;
+
+  //let colorpos = generateRandomNumber(7);
+  //let pos = generateRandomNumber(100);
+  //createBallon(COLORS[colorpos], pos, "nb" + Date.now());
 });
 
 /*
