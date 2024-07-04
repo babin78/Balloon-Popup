@@ -1,0 +1,178 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /*background-color: black;*/
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  width: 80vw;
+  height: 80vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.playArea {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.sidePanel {
+  display: none;
+  position: absolute;
+  width: 100px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 2px;
+  top: 10px;
+  left: 10px;
+
+  color: rgba(0, 0, 0, 0.5);
+  padding-left: 3px;
+
+  text-align: center;
+  transition: 1s ease;
+
+  /*
+  opacity: 0;
+  animation: sideamin 1s 1.6s linear forwards;*/
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+.balloon {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+
+  display: none;
+  /*temporal remove it*/
+
+  /*animation: ballonAnim 8s 0.4s ease infinite;*/
+}
+
+@keyframes ballonAnim {
+  0% {
+    bottom: 0%;
+  }
+  100% {
+    bottom: 89%;
+    display: none;
+  }
+}
+
+.cursor {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.cursor img {
+  width: 100%;
+  height: 100%;
+}
+
+.sidePanel .level {
+  font-size: 1.4rem;
+  margin-bottom: 2px;
+}
+
+.sidePanel .level span,
+.sidePanel .score span {
+  width: 30px;
+  float: right;
+}
+
+@keyframes sideamin {
+  from {
+    transform: translateX(0);
+    filter: blur();
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sidePanel span {
+  background-color: orangered;
+  color: white;
+  width: 100%;
+}
+
+.playArea .startButton {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+
+  opacity: 0;
+  font-size: larger;
+  width: 200px;
+  height: 40px;
+  border-radius: 5px;
+  animation: buttonanim 1s 1s linear forwards;
+}
+
+.title {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  opacity: 0;
+  animation: titleAnim 1s linear 0.4s 1 forwards;
+}
+
+.redBar {
+  width: 100%;
+  height: 4px;
+
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  border: 2px solid red;
+  display: none;
+}
+@keyframes titleAnim {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes buttonanim {
+  from {
+    transform: translateX(-200%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%);
+    opacity: 1;
+  }
+}
