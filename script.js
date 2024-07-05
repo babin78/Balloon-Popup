@@ -97,24 +97,24 @@ const isRedalloon = (e) => {
 };
 
 const ballonClickEvent = (e) => {
-  //console.log("ballon clicked");
+  if (isStarted) {
+    let { isRedFlag, currentid } = isRedalloon(e);
+    document.querySelector("#" + currentid).remove();
+    if (isStarted) {
+    }
+    if (isRedFlag) {
+      //console.log(`opps you clicked red`);
 
-  ////console.log(e.target.parentNode);
-  //audioplayer.play();
-  let { isRedFlag, currentid } = isRedalloon(e);
-  document.querySelector("#" + currentid).remove();
-  if (isRedFlag) {
-    //console.log(`opps you clicked red`);
+      explosionAudio.play();
 
-    explosionAudio.play();
+      isStarted = false;
+      showResult();
+    } else {
+      popAudio.play();
 
-    isStarted = false;
-    showResult();
-  } else {
-    popAudio.play();
-
-    currentScore++;
-    updateScore();
+      currentScore++;
+      updateScore();
+    }
   }
 };
 
@@ -123,14 +123,17 @@ const animENDEvent = (e) => {
   let colorCode = e.target.getAttribute("data-color");
   console.log(`colorcode ${colorCode}`);
   document.querySelector("#" + currentid).remove();
+
   if (colorCode == "#FF0000") {
     console.log(`red ballon continue game`);
   } else {
-    explosionAudio.play();
-    isStarted = false;
-    console.log(`oops balloon died`);
-    clearInterval(timer);
-    showResult();
+    if (isStarted) {
+      explosionAudio.play();
+      isStarted = false;
+      console.log(`oops balloon died`);
+      clearInterval(timer);
+      showResult();
+    }
   }
 
   //removeStaleBallons();
